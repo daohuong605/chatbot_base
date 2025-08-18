@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chatbot UI</title>
+  <style>
+    :root {
+      --bg: #0f1724;
+      --card: #0b1220;
+      --accent: #06b6d4;
+      --user: #0ea5a4;
+      --bot: #111827;
+      --text: #e6eef6;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #071022 0%, #071028 100%);
+      font-family: Inter, ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica Neue, Arial;
+      color: var(--text);
+    }
+    .app {
+      max-width: 900px;
+      margin: 36px auto;
+      padding: 20px;
+      background: var(--card);
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(2,6,23,.6);
+    }
+    header { display: flex; align-items: center; gap: 12px; }
+    header h1 { font-size: 20px; margin: 0; }
+    .chat-wrap {
+      height: 520px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(255,255,255,0.03);
+      margin-top: 16px;
+    }
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .msg {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      line-height: 1.4;
+      font-size: 14px;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+    .msg.user {
+      background: linear-gradient(90deg, var(--user), var(--accent));
+      color: #032022;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+    .msg.bot {
+      background: #0b1726;
+      color: var(--text);
+      align-self: flex-start;
+      border: 1px solid rgba(255,255,255,0.03);
+      border-bottom-left-radius: 4px;
+    }
+    .input-row { display: flex; gap: 8px; margin-top: 12px; }
+    textarea {
+      flex: 1;
+      min-height: 48px;
+      max-height: 160px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.04);
+      background: transparent;
+      color: var(--text);
+      resize: none;
+      font-size: 14px;
+    }
+    button {
+      background: var(--accent);
+      border: none;
+      color: #042026;
+      padding: 0 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .muted { color: rgba(230,238,246,0.6); font-size: 13px; }
+    footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#042026"/><path d="M7 8h10M7 12h6" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <div>
+        <h1>Chatbot Demo</h1>
+        <div class="muted">Giao diện chat đơn giản — kết nối tới <code>/chat</code></div>
+      </div>
+    </header>
+
+    <section class="chat-wrap">
+      <div class="messages" id="messages"></div>
+      <div class="input-row">
+        <textarea id="input" placeholder="Gõ tin nhắn và nhấn Enter để gửi (Shift+Enter xuống dòng)..."></textarea>
+        <button id="sendBtn">Gửi</button>
+      </div>
+      <footer>
+        <div class="muted">Kết nối: <span id="status">sẵn sàng</span></div>
+        <div class="muted">Phiên bản demo</div>
+      </footer>
+    </section>
+  </main>
+
+  <script>
+  const messagesEl = document.getElementById('messages');
+  const inputEl = document.getElementById('input');
+  const sendBtn = document.getElementById('sendBtn');
+  const statusEl = document.getElementById('status');
+
+  let isSending = false; // Khóa gửi khi đang xử lý
+
+  function appendMessage(text, cls = 'bot') {
+    const div = document.createElement('div');
+    div.className = 'msg ' + cls;
+    div.textContent = text;
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  async function sendMessage() {
+    const message = inputEl.value.trim();
+    if (!message || isSending) return;
+    inputEl.value = '';
+    inputEl.focus();
+    appendMessage(message, 'user');
+    statusEl.textContent = 'đang gửi...';
+    isSending = true;
+    sendBtn.disabled = true;
+
+    try {
+      const res = await fetch("/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message })
+      });
+
+      const data = await res.json();
+      appendMessage(data.reply, 'bot'); // render bot
+    } catch (err) {
+      appendMessage("Lỗi kết nối!", 'bot');
+    } finally {
+      isSending = false;
+      sendBtn.disabled = false;
+      statusEl.textContent = 'sẵn sàng';
+    }
+  }
+
+  // Chỉ dùng 1 event listener để tránh bị trùng
+  inputEl.addEventListener('keyup', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  sendBtn.addEventListener('click', () => {
+    sendMessage();
+  });
+
+  // Trạng thái
+  statusEl.textContent = 'sẵn sàng';
+</script>
+</body>
+</html>
