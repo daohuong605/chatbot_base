@@ -1,0 +1,4 @@
+# Bỏ thư mục Python venv
+venv/
+__pycache__/
+*.pyc
