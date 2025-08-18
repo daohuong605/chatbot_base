@@ -97,8 +97,14 @@ Câu hỏi / yêu cầu từ người dùng:
     reply_json = None
     try:
         cleaned = bot_reply.strip()
-        cleaned = re.sub(r"^```json\s*|```$", "", cleaned, flags=re.MULTILINE).strip()
-        cleaned = re.sub(r"^```|```$", "", cleaned, flags=re.MULTILINE).strip()
+        cleaned = bot_reply.strip()
+        # Loại bỏ tất cả các đoạn markdown ```json ... ```
+        cleaned = re.sub(r"^```json\s*", "", cleaned)
+        cleaned = re.sub(r"^```|```$", "", cleaned)
+        cleaned = cleaned.strip()
+        # Nếu chuỗi chỉ còn lại rỗng hoặc ```json, trả về lỗi
+        if not cleaned or cleaned.lower() == "json":
+            raise ValueError("Empty or invalid JSON content")
         reply_json = (
             cleaned if isinstance(bot_reply, dict) else json.loads(cleaned)
         )

@@ -25,7 +25,7 @@ def insert_message(user_message, bot_reply):
             "message": user_message,
             "reply": bot_reply
         }).execute()
-        print("Tin nhắn đã được chèn thành công:", response)
+        print("Tin nhắn đã được chèn thành công!")
     except Exception as e:
         print("Lỗi khi chèn tin nhắn:", e)
 
