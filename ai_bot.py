@@ -1,12 +1,14 @@
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 import os
-import json
-import re
+#import json
+#import re
 from langchain_google_genai import ChatGoogleGenerativeAI
 
+
 from data.import_data import insert_message
-from rag.game_rags import get_games_data
+#from rag.game_rags import get_games_data
+from data.get_history import get_latest_messages
 
 
 # Load biến môi trường
@@ -26,10 +28,6 @@ llm = ChatGoogleGenerativeAI(
     google_api_key=google_api_key,
 )
 
-# Load dữ liệu RAG (game data)
-games_data = get_games_data()
-
-
 @app.route("/")
 def index():
     return app.send_static_file("chatbot_ui.html")
@@ -42,90 +40,29 @@ def chat():
 
     if not user_msg:
         return jsonify({"error": "Message không được để trống"}), 400
+    
+    # Lấy 8 lịch sử  chat gần nhất
+    history = get_latest_messages(8)
 
-    # Chuẩn bị dữ liệu game cho RAG
-    games_info = "\n".join(
-        [f"- {g.get('name', '')}: {g.get('description', '')}" for g in games_data]
+    # Format lịch sử thành đoạn hội thoại
+    history_text = ""
+    for item in reversed(history): # Đảo ngược để đúng thứ tự thời gian
+        history_text += f"User: {item['message']}\nBot: {item['reply']}\n"
+
+    # Tạo prompt mới có lịch sử chat
+    prompt = (
+        f"Lịch sử hội thoại: \n{history_text}\n"
+        f"User: {user_msg}\n"
     )
 
-    # Prompt “Global SEO Content Master Room”
-    rag_prompt = f"""
-Bạn là Global SEO Content Master Room (Audited) – Hội đồng AI đa tác nhân (Multi-Agent) chuyên gia SEO & Content Game HTML5.
-
-🎯 Nhiệm vụ:
-1. Tạo bài viết chất lượng cao, chuẩn SEO 2025 (HCU, EEAT, Search Generative Experience – SGE).
-2. Nội dung tự nhiên, giống con người, hạn chế dấu hiệu AI.
-3. Có trải nghiệm thực tế game, thông tin xác thực, phân tích sâu.
-4. Tự kiểm tra AI detection, HCU, EEAT và chỉnh sửa cho đến khi đạt chuẩn.
-
----
-
-## 🖋 Input
-Dữ liệu game:
-{games_info}
-
-Câu hỏi / yêu cầu từ người dùng:
-{user_msg}
-
----
-
-## 📋 Quy trình
-1. Phân tích Fact, Pain Point, Insight.
-2. Tạo Outline SEO.
-3. Xuất danh sách từ khoá.
-4. Viết bài hoàn chỉnh (1500–2500 từ).
-5. Tạo Title & Meta Description.
-6. Kiểm duyệt AI/HCU/EEAT (Marie).
-7. Nếu chưa đạt chuẩn → tự chỉnh sửa lại cho đến khi đạt.
-8. Xuất bản bản cuối cùng.
-
----
-
-## ⚠️ Output JSON format (bắt buộc):
-{{
-  "title": "Tiêu đề bài viết",
-  "meta_description": "Meta mô tả ngắn gọn (dưới 160 ký tự, có CTA)",
-  "content": "Toàn bộ bài viết đã tối ưu, giọng văn tự nhiên, chuẩn SEO, đạt EEAT cao."
-}}
-    """
-
-    # Gọi model Google GenAI
-    response = llm.invoke(rag_prompt)
+    # Gọi model với prompt lấy lịch sử chat
+    response = llm.invoke(prompt)
     bot_reply = response.content
 
-    # Parse JSON an toàn
-    reply_json = None
-    try:
-        cleaned = bot_reply.strip()
-        cleaned = bot_reply.strip()
-        # Loại bỏ tất cả các đoạn markdown ```json ... ```
-        cleaned = re.sub(r"^```json\s*", "", cleaned)
-        cleaned = re.sub(r"^```|```$", "", cleaned)
-        cleaned = cleaned.strip()
-        # Nếu chuỗi chỉ còn lại rỗng hoặc ```json, trả về lỗi
-        if not cleaned or cleaned.lower() == "json":
-            raise ValueError("Empty or invalid JSON content")
-        reply_json = (
-            cleaned if isinstance(bot_reply, dict) else json.loads(cleaned)
-        )
-    except Exception as e:
-        print("❌ Lỗi parse JSON:", e)
-        reply_json = {
-            "title": "Lỗi phân tích",
-            "meta_description": "",
-            "content": bot_reply,
-        }
-    
-    reply_json["reply"] = (
-    f"<b>{reply_json.get('title','')}</b><br>"
-    f"<i>{reply_json.get('meta_description','')}</i><br><br>"
-    f"{reply_json.get('content','')}"
-    )
-
     # Lưu vào Supabase
-    insert_message(user_msg, json.dumps(reply_json, ensure_ascii=False))
+    insert_message(user_msg, bot_reply)
 
-    return jsonify(reply_json)
+    return jsonify({"reply": bot_reply})
 
 
 if __name__ == "__main__":
