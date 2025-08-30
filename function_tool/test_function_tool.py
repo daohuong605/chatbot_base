@@ -1,6 +1,6 @@
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.tools import StructuredTool
-from langchain.agents import create_openai_functions_agent, AgentExecutor
+from langchain_google_genai import ChatGoogleGenerativeAI #wrapperLLM của Google GenAI
+from langchain.tools import StructuredTool #bọc hàm  Python thành tool
+from langchain.agents import create_openai_functions_agent, AgentExecutor #Khởi tạo agent theo kiểu function calling
 from langchain.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
@@ -52,7 +52,7 @@ agent = create_openai_functions_agent(llm, [evaluate_math_expression_tool], prom
 agent_executor = AgentExecutor(agent=agent, tools=[evaluate_math_expression_tool], verbose=True)
 
 response = agent_executor.invoke({
-    "input": "Hãy tính: 9.896 - 4.012 + (-13.23456908) - (-2**(-1.05)) và làm tròn 6 chữ số thập phân"
+    "input": "Hãy tính: 9.896 - 4.012 + (-13.23456908) - (-2**(-1.05)) và làm tròn 10 chữ số thập phân"
 })
 
 print("Kết quả:", response)
