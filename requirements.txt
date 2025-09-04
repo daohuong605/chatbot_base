@@ -12,3 +12,6 @@ requests
 faiss-cpu
 supabase
 dotenv
+fastmcp
+mcp
+aiohttp
