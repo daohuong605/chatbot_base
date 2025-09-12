@@ -24,20 +24,20 @@ def chat():
     if not llm:
         return Response(f"Provider {provider} không hợp lệ", status=400)
 
-    # ✅ Lấy 8 lịch sử chat gần nhất
+    # history
     history = get_latest_messages(8)
 
     history_text = ""
     for item in reversed(history):
         history_text += f"User: {item['message']}\n{item['reply']}\n"
 
-    # Prompt (không thêm "Bot:" ở trước)
+    # Prompt 
     prompt = (
         f"Lịch sử hội thoại:\n{history_text}\n"
         f"User: {user_msg}\n"
     )
 
-    # ✅ Streaming trả về dần dần
+    # Streaming
     @stream_with_context
     def generate():
         buffer = ""
