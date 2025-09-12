@@ -19,9 +19,10 @@ if SUPABASE_URL and SUPABASE_KEY:
 else:
     print("Thiếu SUPABASE_URL hoặc SUPABASE_KEY trong biến môi trường.")   
 
-def insert_message(user_message, bot_reply):
+def insert_message(user_id, user_message, bot_reply):
     try:
         response = supabase.table("messages_test").insert({
+            "user_id": user_id,
             "message": user_message,
             "reply": bot_reply
         }).execute()

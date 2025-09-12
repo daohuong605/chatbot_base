@@ -52,7 +52,15 @@ def chat():
         return Response(f"Provider {provider} không hợp lệ", status=400)
 
     # history
-    history = get_latest_messages(8)
+    # history = get_latest_messages(8)
+    user = session.get("user")
+    if not user:
+        return Response("Bạn chưa đăng nhập", status=401)
+
+    user_id = user["id"]
+
+    # history
+    history = get_latest_messages(user_id, 8)
 
     history_text = ""
     for item in reversed(history):
@@ -73,7 +81,7 @@ def chat():
                 if hasattr(chunk, "content") and chunk.content:
                     buffer += chunk.content
                     yield chunk.content
-            insert_message(user_msg, buffer)
+            insert_message(user_id, user_msg, buffer)
         except Exception as e:
             yield f"\n[ERROR]: {str(e)}"
 
