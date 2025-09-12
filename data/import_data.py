@@ -29,6 +29,19 @@ def insert_message(user_message, bot_reply):
     except Exception as e:
         print("Lỗi khi chèn tin nhắn:", e)
 
+def insert_user(email: str, password_hash: str):
+    """Chèn user mới vào bảng users"""
+    try:
+        supabase.table("users_aibot").insert({
+            "email": email,
+            "password_hash": password_hash
+        }).execute()
+        print(f"👤 User {email} đã được tạo thành công!")
+    except Exception as e:
+        print("❌ Lỗi khi chèn user:", e)
+
 if __name__ == "__main__":
     # Ví dụ chèn một tin nhắn
-    insert_message("Xin chào!", "Chào bạn! Tôi là AI.")
+    # insert_message("Xin chào!", "Chào bạn! Tôi có thể giúp gì cho bạn?")
+    insert_user("huongdao@gmail.com", "12ehrjd")
+    

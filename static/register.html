@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Đăng ký tài khoản</title>
+  <style>
+    :root {
+      --bg: #f9f9f9;
+      --card-bg: #fff;
+      --accent: #4caf50;
+      --text: #333;
+      --border: #ddd;
+      --error: #e53935;
+      --success: #2e7d32;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .register-container {
+      width: 360px;
+      padding: 28px;
+      border-radius: 15px;
+      background: var(--card-bg);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .register-header {
+      text-align: center;
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--accent);
+    }
+    .register-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group label {
+      font-size: 14px;
+      color: var(--text);
+    }
+    .form-group input {
+      padding: 10px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+    .form-group input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(76,175,80,0.2);
+    }
+    .register-btn {
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      background: var(--accent);
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .register-btn:hover {
+      background: #43a047;
+    }
+    .register-btn:active {
+      transform: scale(0.98);
+    }
+    .login-link {
+      text-align: center;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .login-link a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+    .message {
+      text-align: center;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+    .message.error {
+      color: var(--error);
+    }
+    .message.success {
+      color: var(--success);
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <div class="register-header">Tạo tài khoản</div>
+    <form id="registerForm" class="register-form">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="Nhập email..." required />
+      </div>
+      <div class="form-group">
+        <label for="password">Mật khẩu</label>
+        <input id="password" type="password" placeholder="Nhập mật khẩu..." required />
+      </div>
+      <button type="submit" class="register-btn">Đăng ký</button>
+    </form>
+    <div class="login-link">
+      Đã có tài khoản? <a href="/login-ui">Đăng nhập</a>
+    </div>
+    <div id="message" class="message"></div>
+  </div>
+
+<script>
+    const form = document.getElementById("registerForm");
+    const msgEl = document.getElementById("message");
+
+    form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    try {
+        const res = await fetch("/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+        msgEl.textContent = "🎉 Đăng ký thành công!";
+        msgEl.className = "message success";
+
+        // Redirect sau 1 giây
+        setTimeout(() => {
+            window.location.href = data.redirect || "/login-ui";
+        }, 1000);
+
+        } else {
+        msgEl.textContent = "❌ " + (data.error || "Có lỗi xảy ra");
+        msgEl.className = "message error";
+        }
+    } catch (err) {
+        msgEl.textContent = "❌ Lỗi mạng hoặc server";
+        msgEl.className = "message error";
+    }
+    });
+</script>
