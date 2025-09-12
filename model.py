@@ -24,8 +24,13 @@ gemini_pro = ChatGoogleGenerativeAI(
     google_api_key=google_api_key,
 )
 
-# models.py (DeepSeek phần sửa)
+gemini_flash_lite = ChatGoogleGenerativeAI(
+    model="gemini-2.5-flash-lite",
+    temperature=0.7,
+    google_api_key=google_api_key,
+)
 
+# DeepSeek
 deepseek_chat = ChatOpenAI(
     model="deepseek-v3.1",          
     temperature=0.7,
@@ -40,7 +45,6 @@ deepseek_reasoner = ChatOpenAI(
     base_url="https://api.deepseek.com/v1",
 )
 
-
 # Grok (xAI)
 grok_chat = ChatOpenAI(
     model="grok-2-latest",
@@ -52,8 +56,20 @@ grok_chat = ChatOpenAI(
 # Dictionary để chọn model theo tên
 models = {
     "gemini-flash": gemini_flash,
+    "gemini-flash-lite": gemini_flash_lite,
     # "gemini-pro": gemini_pro,
     "deepseek-chat": deepseek_chat,
     "deepseek-reasoner": deepseek_reasoner,
     "grok-2": grok_chat,
 }
+
+# # ✅ Test code
+# if __name__ == "__main__":
+#     print("Danh sách models khả dụng:", list(models.keys()))
+
+#     try:
+#         print("\n--- Test Gemini 2.5 Flash Lite ---")
+#         res = models["gemini-flash-lite"].invoke("Xin chào, bạn có hoạt động không?")
+#         print("Kết quả:", res.content if hasattr(res, "content") else res)
+#     except Exception as e:
+#         print("❌ Lỗi khi gọi gemini-2.5-flash-lite:", e)
