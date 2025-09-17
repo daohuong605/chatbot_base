@@ -198,114 +198,135 @@
 
   <div class="chatbot-toggle" id="toggleBtn">💬</div>
 
-  <script>
-    const chatbot = document.getElementById("chatbot");
-    const toggleBtn = document.getElementById("toggleBtn");
-    const closeBtn = document.getElementById("close-btn");
-    const sendBtn = document.getElementById("sendBtn");
-    const userInput = document.getElementById("userInput");
-    const messages = document.getElementById("messages");
-    const providerSelect = document.getElementById("providerSelect");
-    const selected = providerSelect.querySelector(".selected");
-    const options = providerSelect.querySelector(".options");
-    let currentProvider = "gemini-flash";
+<script>
+  const chatbot = document.getElementById("chatbot");
+  const toggleBtn = document.getElementById("toggleBtn");
+  const closeBtn = document.getElementById("close-btn");
+  const sendBtn = document.getElementById("sendBtn");
+  const userInput = document.getElementById("userInput");
+  const messages = document.getElementById("messages");
+  const providerSelect = document.getElementById("providerSelect");
+  const selected = providerSelect.querySelector(".selected");
+  const options = providerSelect.querySelector(".options");
+  let currentProvider = "gemini-flash";
 
-    // Toggle chatbot
-    toggleBtn.addEventListener("click", () => {
-      chatbot.style.display = "flex";
-      toggleBtn.style.display = "none";
-      userInput.focus();
-    });
-    closeBtn.addEventListener("click", () => {
-      chatbot.style.display = "none";
-      toggleBtn.style.display = "flex";
-    });
+  // Toggle chatbot
+  toggleBtn.addEventListener("click", () => {
+    chatbot.style.display = "flex";
+    toggleBtn.style.display = "none";
+    loadHistory(); // gọi API load lịch sử
+    userInput.focus();
+  });
+  closeBtn.addEventListener("click", () => {
+    chatbot.style.display = "none";
+    toggleBtn.style.display = "flex";
+  });
 
-    // Dropdown logic
-    selected.addEventListener("click", () => {
-      providerSelect.classList.toggle("open");
+  // Dropdown logic
+  selected.addEventListener("click", () => {
+    providerSelect.classList.toggle("open");
+  });
+  options.querySelectorAll("div").forEach(opt => {
+    opt.addEventListener("click", () => {
+      selected.innerText = opt.innerText;
+      currentProvider = opt.dataset.value;
+      providerSelect.classList.remove("open");
     });
-    options.querySelectorAll("div").forEach(opt => {
-      opt.addEventListener("click", () => {
-        selected.innerText = opt.innerText;
-        currentProvider = opt.dataset.value;
-        providerSelect.classList.remove("open");
+  });
+  document.addEventListener("click", (e) => {
+    if (!providerSelect.contains(e.target)) {
+      providerSelect.classList.remove("open");
+    }
+  });
+
+  // Auto resize textarea
+  userInput.addEventListener("input", () => {
+    userInput.style.height = "auto";
+    userInput.style.height = userInput.scrollHeight + "px";
+  });
+
+  // Hàm load lịch sử từ backend
+  async function loadHistory() {
+    try {
+      const res = await fetch("/history", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
       });
-    });
-    document.addEventListener("click", (e) => {
-      if (!providerSelect.contains(e.target)) {
-        providerSelect.classList.remove("open");
-      }
-    });
 
-    // Auto resize textarea
-    userInput.addEventListener("input", () => {
-      userInput.style.height = "auto";
-      userInput.style.height = userInput.scrollHeight + "px";
-    });
-
-    let isSending = false;
-    async function sendMessage() {
-      if (isSending) return;
-      const text = userInput.value.trim();
-      if (!text) return;
-
-      appendMessage(text, "user");
-
-      userInput.blur();
-      setTimeout(() => {
-        userInput.value = "";
-        userInput.style.height = "36px";
-        userInput.focus();
-      }, 10);
-
-      const botNode = appendMessage("", "bot");
-      isSending = true;
-
-      try {
-        const res = await fetch("/chat", {
-          method: "POST",
-          headers: {"Content-Type":"application/json"},
-          body: JSON.stringify({message: text, provider: currentProvider})
-        });
-
-        if (!res.body) {
-          botNode.innerText = "❌ Không nhận dữ liệu từ server";
-          return;
-        }
-
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder();
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          botNode.innerText += decoder.decode(value, {stream:true});
-          messages.scrollTop = messages.scrollHeight;
-        }
-      } catch (err) {
-        botNode.innerText = "❌ Lỗi kết nối server!";
-      } finally {
-        isSending = false;
-      }
+      const history = await res.json();
+      messages.innerHTML = ""; 
+      history.forEach(msg => {
+        if (msg.message) appendMessage(msg.message, "user");
+        if (msg.reply) appendMessage(msg.reply, "bot");
+      });
+    } catch (err) {
+      console.error("Lỗi tải lịch sử:", err);
     }
+  }
 
-    sendBtn.addEventListener("click", sendMessage);
-    userInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
+  let isSending = false;
+  async function sendMessage() {
+    if (isSending) return;
+    const text = userInput.value.trim();
+    if (!text) return;
+
+    appendMessage(text, "user");
+
+    userInput.blur();
+    setTimeout(() => {
+      userInput.value = "";
+      userInput.style.height = "36px";
+      userInput.focus();
+    }, 10);
+
+    const botNode = appendMessage("", "bot");
+    isSending = true;
+
+    try {
+      const res = await fetch("/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text, provider: currentProvider })
+      });
+
+      if (!res.body) {
+        botNode.innerText = "❌ Không nhận dữ liệu từ server";
+        return;
       }
-    });
 
-    function appendMessage(text, type) {
-      const node = document.createElement("div");
-      node.classList.add("message", type === "user" ? "user" : "bot");
-      node.innerText = text;
-      messages.appendChild(node);
-      messages.scrollTop = messages.scrollHeight;
-      return node;
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        botNode.innerText += decoder.decode(value, { stream: true });
+        messages.scrollTop = messages.scrollHeight;
+      }
+    } catch (err) {
+      botNode.innerText = "❌ Lỗi kết nối server!";
+    } finally {
+      isSending = false;
     }
-  </script>
+  }
+
+  sendBtn.addEventListener("click", sendMessage);
+  userInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  // 📌 Hàm append tin nhắn
+  function appendMessage(text, role) {
+    const node = document.createElement("div");
+    node.classList.add("message", role === "user" ? "user" : "bot");
+    node.innerText = text;
+    messages.appendChild(node);
+    messages.scrollTop = messages.scrollHeight;
+    return node;
+  }
+</script>
 </body>
 </html>

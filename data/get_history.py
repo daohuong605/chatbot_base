@@ -9,7 +9,7 @@ SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-def get_latest_messages(user_id, limit=10):
+def get_latest_messages(user_id, limit=10): #RAG - prompt cho chatbot
     """
     Lấy `limit` records lịch sử chat gần nhất từ bảng messages_test.
     Trả về list các dict, mỗi dict là một bản ghi.
@@ -28,7 +28,7 @@ def get_latest_messages(user_id, limit=10):
         print("Lỗi khi lấy lịch sử chat:", e)
         return []  
     
-def get_all_messages(user_id):
+def get_all_messages(user_id): #Hiển thị dữ liệu chat của mối user
     """
     Lấy tất cả records từ bảng messages_test.
     Trả về list các dict, mỗi dict là một bản ghi.

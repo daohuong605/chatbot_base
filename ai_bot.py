@@ -1,8 +1,9 @@
-from flask import Flask, request, Response, stream_with_context, redirect, session
+from flask import Flask, request, Response, stream_with_context, redirect, session, jsonify
 from dotenv import load_dotenv
 from model import models
 from data.import_data import insert_message
-from data.get_history import get_latest_messages
+from data.get_history import get_latest_messages, get_all_messages
+import os
 from login.register import register_bp
 from login.login import login_bp  # cần viết file login.py tương tự register
 
@@ -34,6 +35,15 @@ def register_ui():
 @app.route("/login-ui")
 def login_ui():
     return app.send_static_file("login.html")
+
+@app.route("/history", methods=["POST"])
+def history():
+    if not session.get("user"):
+        return jsonify([]), 401
+    user_id = session["user"]["id"]
+    history = get_all_messages(user_id)
+    return jsonify(history)
+
 
 @app.route("/chat", methods=["POST"])
 def chat():
