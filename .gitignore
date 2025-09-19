@@ -1,9 +1,18 @@
-# Bỏ thư mục Python venv
-venv/
-__pycache__/
-*.pyc
+# Logs
+*.log
 
-# Environment variables
-.env
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
 
-data/embedder.pkl
+# SQLite databases
+*.db
+*.sqlite3
+
+# macOS system files
+.DS_Store
+
+# VSCode settings
+.vscode/
+
+# PyCharm settings
+.idea/
