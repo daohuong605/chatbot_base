@@ -16,3 +16,9 @@ fastmcp
 mcp
 aiohttp
 flask-bcrypt
+scikit-learn
+numpy<2.0.0
+pandas
+nltk
+sentence_transformers
+torch
