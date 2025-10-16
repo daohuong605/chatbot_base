@@ -92,7 +92,7 @@ def chat():
 
     data = request.json or {}
     user_msg = data.get("message", "").strip()
-    provider = data.get("provider", "gemini-flash")
+    provider = data.get("provider", "google")
 
     if not user_msg:
         return Response("Message không được để trống", status=400)
