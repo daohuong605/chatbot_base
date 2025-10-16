@@ -22,3 +22,6 @@ pandas
 nltk
 sentence_transformers
 torch
+gspread
+google-auth
+google-auth-oauthlib

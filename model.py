@@ -12,11 +12,11 @@ deepseek_api_key = os.getenv("DEEPSEEK_API_KEY")
 grok_api_key = os.getenv("GROK_API_KEY")
 
 # Google Gemini
-gemini_flash = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash",
-    temperature=0.7,
-    google_api_key=google_api_key,
-)
+# gemini_flash = ChatGoogleGenerativeAI(
+#     model="gemini-1.5-flash",
+#     temperature=0.7,
+#     google_api_key=google_api_key,
+# )
 
 gemini_pro = ChatGoogleGenerativeAI(
     model="gemini-1.5-pro",
@@ -25,7 +25,7 @@ gemini_pro = ChatGoogleGenerativeAI(
 )
 
 gemini_flash_lite = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash-lite",
+    model="gemini-2.5-flash-lite-preview-09-2025",
     temperature=0.7,
     google_api_key=google_api_key,
 )
@@ -55,7 +55,7 @@ grok_chat = ChatOpenAI(
 
 # Dictionary để chọn model theo tên
 models = {
-    "gemini-flash": gemini_flash,
+    # "gemini-flash": gemini_flash,
     "gemini-flash-lite": gemini_flash_lite,
     # "gemini-pro": gemini_pro,
     "deepseek-chat": deepseek_chat,
