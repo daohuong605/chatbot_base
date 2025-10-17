@@ -8,24 +8,23 @@
       "Tên tiếng Anh",
       "Mô tả (giúp người dùng lựa chọn)"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "2ddd0b3b84273e1ad429900db288da4f",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "Stress cảm xúc",
     "num_rows": 10,
-    "num_columns": 7,
+    "num_columns": 6,
     "column": [
       "Mức",
       "Mô tả trạng thái",
       "Dấu hiệu thường thấy",
       "Nhu cầu chưa được đáp ứng (theo NVC)",
       "Ví dụ câu nói người dùng",
-      "Phản hồi gợi ý (AI)",
-      "Prompt AI "
+      "Phản hồi gợi ý (AI)"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "43f9286dcf05b9c17843b19cf34852bd",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "Stress cảm xúc - Câu nói hay dùng",
@@ -35,52 +34,49 @@
       "Mức",
       "20 câu nói người dùng"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "c241b932c9880e3fbd7cee50dc84f7c7",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "Stress xã hội",
     "num_rows": 10,
-    "num_columns": 7,
+    "num_columns": 6,
     "column": [
       "Mức",
       "Mô tả trạng thái",
       "Dấu hiệu thường thấy",
       "Nhu cầu chưa được đáp ứng (theo NVC)",
       "Ví dụ câu nói người dùng",
-      "Phản hồi gợi ý (AI)",
-      "Prompt AI "
+      "Phản hồi gợi ý (AI)"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "97006a44cd3727ee705c6fb3a574c7cb",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "Stress xã hội - Câu nói hay dùng",
     "num_rows": 10,
-    "num_columns": 3,
+    "num_columns": 2,
     "column": [
       "Mức",
-      "Prompt GPT",
       "20 câu nói người dùng"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "ac53ea21e5a37099d119713a3a0196b1",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "Stress nhận thức",
     "num_rows": 10,
-    "num_columns": 7,
+    "num_columns": 6,
     "column": [
       "Mức",
       "Mô tả trạng thái",
       "Dấu hiệu thường thấy",
       "Nhu cầu chưa được đáp ứng (theo NVC)",
       "Ví dụ câu nói người dùng",
-      "Phản hồi gợi ý (AI)",
-      "Prompt AI "
+      "Phản hồi gợi ý (AI)"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "59f07e9c3e26f3d6b76c7fe8a9709558",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "Stress nhận thức - Câu nói hay dùng",
@@ -90,24 +86,23 @@
       "Mức",
       "20 Câu nói người dùng"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "2226eeadb91906592550c45e5a33c16d",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "Stress sinh lý",
     "num_rows": 10,
-    "num_columns": 7,
+    "num_columns": 6,
     "column": [
       "Mức",
       "Mô tả trạng thái",
       "Dấu hiệu thường thấy",
       "Nhu cầu chưa được đáp ứng (theo NVC)",
       "Ví dụ câu nói người dùng",
-      "Phản hồi gợi ý (AI)",
-      "Prompt AI "
+      "Phản hồi gợi ý (AI)"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "0d17f5638cbf9f1477d795b2da24084d",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "Stress sinh lý - Câu nói hay dùng",
@@ -117,8 +112,8 @@
       "Mức",
       "20 câu nói người dùng"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "1f62bb1ea800581fdac3079a4f723262",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "Trầm cảm",
@@ -129,24 +124,23 @@
       "Tên Tiếng Anh ",
       "Mô tả "
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "75844d1df080801c5d4cb369be24ab37",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "TC nhận thức",
     "num_rows": 10,
-    "num_columns": 7,
+    "num_columns": 6,
     "column": [
       "Mức",
       "Mô tả trạng thái",
       "Dấu hiệu thường thấy",
       "Nhu cầu chưa được đáp ứng (theo NVC)",
       "Ví dụ câu nói người dùng",
-      "Phản hồi gợi ý (AI)",
-      "Prompt AI"
+      "Phản hồi gợi ý (AI)"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "0af7112c27621237a85a0b29de23adf9",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "TC nhận thức - Câu nói hay dùng",
@@ -156,24 +150,23 @@
       "Mức",
       "20 câu nói người dùng"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "7aba76ac5cb4c135f04e5e8fe803fcf2",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "TC - Mất kết nối",
     "num_rows": 10,
-    "num_columns": 7,
+    "num_columns": 6,
     "column": [
       "Mức",
       "Mô tả trạng thái",
       "Dấu hiệu thường thấy",
       "Nhu cầu chưa được đáp ứng (NVC)",
       "Ví dụ câu nói người dùng",
-      "Phản hồi gợi ý (AI)",
-      "Prompt AI"
+      "Phản hồi gợi ý (AI)"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "df67fe4ae62221ee64a24ca81d542730",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "TC - Mất kết nối - Câu nói hay dùng",
@@ -183,24 +176,23 @@
       "Mức",
       "20 câu nói người dùng"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "ef685d68546865fd4596cd2f73f0a294",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "TC - Tê liệt cảm xúc",
     "num_rows": 10,
-    "num_columns": 7,
+    "num_columns": 6,
     "column": [
       "Mức",
       "Mô tả trạng thái",
       "Dấu hiệu thường thấy",
       "Nhu cầu chưa được đáp ứng (NVC)",
       "Ví dụ câu nói người dùng",
-      "Phản hồi gợi ý (AI)",
-      "Prompt AI"
+      "Phản hồi gợi ý (AI)"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "b387b613e2ac684ccede02f1f6559f10",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "TC - Tê liệt cảm xúc - Câu nói hay dùng",
@@ -210,24 +202,23 @@
       "Mức",
       "20 câu nói người dùng"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "d40e6cd257d2ed3ea36795c0321b67d9",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "TC - Mất ý nghĩa sống",
     "num_rows": 10,
-    "num_columns": 7,
+    "num_columns": 6,
     "column": [
       "Mức",
       "Mô tả trạng thái",
       "Dấu hiệu thường thấy",
       "Nhu cầu chưa được đáp ứng (NVC)",
       "Ví dụ câu nói người dùng",
-      "Phản hồi gợi ý (AI)",
-      "Prompt AI"
+      "Phản hồi gợi ý (AI)"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "4233d3f31613cc2b3e5b65c74611f879",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "TC - Mất ý nghĩa sống - Câu nói hay dùng",
@@ -237,24 +228,23 @@
       "Mức",
       "20 câu nói người dùng"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "1065d3cafd7318fc60ef2c4cc0610ead",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "TC hành vi",
     "num_rows": 10,
-    "num_columns": 7,
+    "num_columns": 6,
     "column": [
       "Mức",
       "Mô tả trạng thái",
       "Dấu hiệu thường thấy",
       "Nhu cầu chưa được đáp ứng (NVC)",
       "Ví dụ câu nói người dùng",
-      "Phản hồi gợi ý (AI)",
-      "Prompt AI"
+      "Phản hồi gợi ý (AI)"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "c181b886483525f734ff461ee5385911",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "TC hành vi - Câu nói hay dùng",
@@ -264,24 +254,23 @@
       "Mức",
       "20 câu nói người dùng (ngắn gọn, đời thường)"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "afae5aeb56d820505977a8a893dba63d",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "TC bản ngã",
     "num_rows": 10,
-    "num_columns": 7,
+    "num_columns": 6,
     "column": [
       "Mức",
       "Mô tả trạng thái",
       "Dấu hiệu thường thấy",
       "Nhu cầu chưa được đáp ứng (NVC)",
       "Ví dụ câu nói người dùng",
-      "Phản hồi gợi ý (AI)",
-      "Prompt AI"
+      "Phản hồi gợi ý (AI)"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "991983ea2e6b8af0d502c6be538352d5",
+    "updated_at": "2025-10-17 09:20:33"
   },
   {
     "sheet_name": "TC bản ngã - Câu nói hay dùng",
@@ -291,7 +280,7 @@
       "Mức",
       "20 câu nói người dùng"
     ],
-    "data_hash": "e384ad026cc3074552698d1aa28e66e0",
-    "updated_at": "2025-10-16 14:44:06"
+    "data_hash": "786558aec62cb293228c5a76d1dbb425",
+    "updated_at": "2025-10-17 09:20:33"
   }
 ]
