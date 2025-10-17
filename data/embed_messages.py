@@ -27,5 +27,4 @@ class Embedder:
         return self.model.encode(text, convert_to_numpy=True)
 
 
-# Singleton để import ở chỗ khác
 embedder = Embedder()

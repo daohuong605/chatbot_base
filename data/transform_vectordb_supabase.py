@@ -3,20 +3,16 @@ from dotenv import load_dotenv
 from tqdm import tqdm
 import os
 import pickle
+from datetime import datetime
 
-# ---------------- CONFIG ----------------
 load_dotenv()
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 TABLE_NAME = "embeddings"
 EMB_DIR = "data/embeddings"
-# ---------------------------------------
-
 
 def load_vector_files():
-    """Lấy danh sách file .pkl"""
     return [f for f in os.listdir(EMB_DIR) if f.endswith(".pkl")]
-
 
 def upload_embeddings(supabase):
     files = load_vector_files()
@@ -31,33 +27,49 @@ def upload_embeddings(supabase):
 
         sheet_name = data.get("sheet_name", "unknown")
         embeddings_by_col = data.get("embeddings_by_col", {})
+        df = data.get("df")
+        data_hash = data.get("data_hash", "")
+        updated_at = data.get("updated_at", datetime.now().isoformat())
+
         rows = []
 
         # Duyệt từng cột embedding
         for col_name, col_data in embeddings_by_col.items():
-            texts = col_data.get("texts", [])
-            embs = col_data.get("embeddings", [])
+            if isinstance(col_data, dict):
+                texts = col_data.get("texts", [])
+                embs = col_data.get("embeddings", [])
+            else:
+                embs = col_data
+                texts = df[col_name].astype(str).tolist() if df is not None and col_name in df.columns else []
 
             if len(texts) != len(embs):
                 print(f"Số lượng text và embedding không khớp trong cột {col_name}")
                 continue
 
-            for text, emb in zip(texts, embs):
-                # Nếu emb là numpy array, chuyển sang list
+            for idx, (text, emb) in enumerate(zip(texts, embs)):
                 if hasattr(emb, "tolist"):
                     emb = emb.tolist()
-                rows.append({
+
+                metadata = {}
+                level = None
+                if df is not None and idx < len(df):
+                    metadata = df.iloc[idx].to_dict()
+                    level = metadata.get("Mức")
+
+                row = {
                     "sheet_name": sheet_name,
+                    "column_name": col_name,
+                    "row_index": idx,
                     "text": text,
                     "embedding": emb,
-                    "metadata": {
-                        "column": col_name,
-                        "data_hash": data.get("data_hash"),
-                        "updated_at": data.get("updated_at"),
-                    }
-                })
+                    "data_hash": data_hash,
+                    "updated_at": updated_at,
+                    "level": level, 
+                }
 
-        print(f"\n📤 Upload {len(rows)} embeddings từ {file} ({len(embeddings_by_col)} cột)...")
+                rows.append(row)
+
+        print(f"\nUpload {len(rows)} embeddings từ {file} ({len(embeddings_by_col)} cột)...")
 
         if not rows:
             print("File không có dữ liệu hợp lệ, bỏ qua.")
